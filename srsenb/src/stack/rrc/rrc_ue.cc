@@ -1119,16 +1119,22 @@ void rrc::ue::send_connection_release()
   rrc_release.rrc_transaction_id     = (uint8_t)((transaction_id++) % 4);
   rrc_conn_release_r8_ies_s& rel_ies = rrc_release.crit_exts.set_c1().set_rrc_conn_release_r8();
   rel_ies.release_cause              = release_cause_e::other;
+  is_csfb=true;
   if (is_csfb) {
+    srsran::console("is_csfb\n");
     if (parent->sib7.carrier_freqs_info_list.size() > 0) {
+      srsran::console("redirected_carrier_info_present true\n");
       rel_ies.redirected_carrier_info_present = true;
       rel_ies.redirected_carrier_info.set_geran();
       rel_ies.redirected_carrier_info.geran() = parent->sib7.carrier_freqs_info_list[0].carrier_freqs;
     } else {
+      srsran::console("redirected_carrier_info_present false\n");
       rel_ies.redirected_carrier_info_present = false;
     }
   }
-
+  else{
+      srsran::console("not is_csfb\n");
+  }
   std::string octet_str;
   send_dl_dcch(&dl_dcch_msg, nullptr, &octet_str);
 

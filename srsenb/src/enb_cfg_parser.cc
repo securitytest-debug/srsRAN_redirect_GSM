@@ -2714,6 +2714,9 @@ int parse_sibs(all_args_t* args_, rrc_cfg_t* rrc_cfg_, srsenb::phy_cfg_t* phy_co
       return SRSRAN_ERROR;
     }
   }
+  else{
+    srsran::console("sib7 not exist");
+  }
 
   // Generate SIB9 if defined in mapping info
   if (sib_is_present(sib1->sched_info_list, sib_type_e::sib_type9)) {
